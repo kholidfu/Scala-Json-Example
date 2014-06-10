@@ -31,12 +31,11 @@ object GDataParser extends App {
 
   // parsing things
   val json = parse(content)
-  val elements = (json \ "data")
-  val items = (elements \ "items").children
-  for (item <- items) {
-    val m = item.extract[GData]
-    println(m.title)
-  }
+  val items = (json \ "data" \ "items").children
+  val titles = items.map(_.extract[GData].title)
+
+  titles.foreach(println)
+
 }
 
 // a case class to match the JSON data
